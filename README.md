@@ -1,4 +1,4 @@
-## MetaWear API by MBIENTLAB
+## MetaWear IOS API by MBIENTLAB
 
 This is the MetaWear iOS API Github Page
 
