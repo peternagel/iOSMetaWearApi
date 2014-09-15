@@ -18,5 +18,9 @@
  Acceleration along each axis in G's
  */
 @property (nonatomic, readonly) double x, y, z;
+/**
+ RMS value of x, y, and z
+ */
+@property (nonatomic, readonly) double RMS;
 
 @end

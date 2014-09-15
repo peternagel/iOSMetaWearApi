@@ -20,6 +20,14 @@
 + (instancetype)sharedManager;
 
 /**
+ Sets the queue for which all callbacks will occur on.  Setting this cancels all ongoing scans,
+ so typically this would be set once upfront.  Defaults to the main queue.
+ @param dispatch_queue_t queue, The dispatch queue on which the events will be dispatched.
+ @returns none
+ */
+- (void)setCallbackQueue:(dispatch_queue_t)queue;
+
+/**
  Subscribe to upates to in the internal bluetooth manager state, this is useful
  for displaying errors if the user happens to turn off bluetooth radio in settings
  @param MBLCentralManagerStateHandler handler, Callback to handle each time a new device is found
