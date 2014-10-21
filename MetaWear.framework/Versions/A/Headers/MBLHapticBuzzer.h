@@ -33,11 +33,9 @@
  * contact MbientLab Inc, at www.mbientlab.com.
  */
 
-#import <Foundation/Foundation.h>
 #import <MetaWear/MBLConstants.h>
-#import <MetaWear/MBLModule.h>
 
-@interface MBLHapticBuzzer : MBLModule
+@interface MBLHapticBuzzer : NSObject
 
 /**
  Turn on Haptic Driver.
