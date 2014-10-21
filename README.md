@@ -1,7 +1,61 @@
 ## MetaWear IOS API by MBIENTLAB
 
-This is the MetaWear iOS API Github Page
+MetaWear is a complete development and production platform for wearable and connected device applications.  It features a powerful ARM processor and sensors, providing energy efficient Smartphone communication and central processing.  The MetaWear board comes pre-loaded with firmware so all sensors and on-board peripherals are controllable via this iOS API.
 
-Please find documentaton at https://mbientlab.com/docs
+For more infomation and to order your MetaWear today see our website at https://mbientlab.com
 
 You can join us on the [MbientLab Community Forums](http://community.mbientlab.com) to be part of the discussion.
+
+### Getting Started
+
+To get started you must have an Apple developer account. This is because the iOS simulator doesn’t support Bluetooth 4.0, so test apps must be run on a real iOS device* which requires a developer account.  
+*Bluetooth 4.0 avaliable on iPhone 4S+, iPad 3rd generation+, or iPod Touch 5th generation.
+
+Check out http://developer.apple.com to get started. 
+
+Note that there are fees associated with an Apple developer account.
+
+### Installation
+
+If you are familiar with [CocoaPods](http://cocoapods.org/), you can use the pod named `'Metawear-iOSAPI'`.
+
+Otherwise, download or fork this project.  The API is available as a Framework for iOS called the MetaWear.framework. You will see a few header files along with a framework file included in your download.  To install, simply drag the MetaWear.framework folder into your Xcode project.
+
+[[Insert Picture]]
+
+### Simple API Test
+
+Here is a walkthrough to showcase a very basic connect and toggle LED operation.
+
+First, import the framework header files like this:
+```obj-c
+#import <MetaWear/MetaWear.h>
+```
+
+Then add the following code wherever appropriate to make the LED flash green:
+```obj-c
+  // Begin scanning for MetaWear boards
+  [[MBLMetaWearManager sharedManager] startScanForMetaWearsWithHandler:^(NSArray *array) {
+      // Hooray! We found a MetaWear board, so stop scanning for more
+      [[MBLMetaWearManager sharedManager] stopScanForMetaWears];
+      // Connect to the board we found
+      MBLMetaWear *device = [array firstObject];
+      [device connecWithHandler:^(NSError *error) {
+          if (!error) {
+              // Hooray! We connected to a MetaWear board, so flash its LED!
+              [device.led flashLEDColor:[UIColor greenColor] withIntensity:0.5];
+          }
+      }];
+  }];
+```
+Now run the app on a physical device. 
+
+*BLUETOOTH IS NOT SUPPORTED IN THE SIMULATOR* and you will receive a build ERROR when you attempt to compile a MetaWear project in the simulator.
+
+### Sample iOS App
+
+A sample iOS App using the MetaWear iOS API can be found at https://github.com/mbientlab/Metawear-SampleiOSApp.
+
+The sample iOS App demonstrates the base functionality of the various MetaWear modules and serves as a good starting point for developers.
+
+
