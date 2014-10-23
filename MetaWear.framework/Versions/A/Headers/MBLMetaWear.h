@@ -84,7 +84,8 @@
  @param MBLErrorHandler handler, Callback once connection is complete
  @returns none
  */
-- (void)connecWithHandler:(MBLErrorHandler)handler;
+- (void)connectWithHandler:(MBLErrorHandler)handler;
+- (void)connecWithHandler:(MBLErrorHandler)handler DEPRECATED_MSG_ATTRIBUTE("Use connectWithHandler: instead");
 
 /**
  Disconnect from the MetaWear board.
