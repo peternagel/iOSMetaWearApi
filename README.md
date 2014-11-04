@@ -40,7 +40,7 @@ Then add the following code wherever appropriate to make the LED flash green:
       [[MBLMetaWearManager sharedManager] stopScanForMetaWears];
       // Connect to the board we found
       MBLMetaWear *device = [array firstObject];
-      [device connecWithHandler:^(NSError *error) {
+      [device connectWithHandler:^(NSError *error) {
           if (!error) {
               // Hooray! We connected to a MetaWear board, so flash its LED!
               [device.led flashLEDColor:[UIColor greenColor] withIntensity:0.5];
