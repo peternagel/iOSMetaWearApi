@@ -11,11 +11,11 @@ MetaWear features a number of sensors and peripherals all easily controllable ov
 It comes pre-loaded with a wirelessly upgradeable firmware, so you can always take advantage of the latest features.
 
 ### Requirements
-
-- [Apple developer account](http://developer.apple.com/), note there are fees associated.
+- [MetaWear board](http://mbientlab.com/store/)
+- [Apple developer account](https://developer.apple.com/programs/ios/), note there are fees associated.
 - Device running iOS 7.1 or later with Bluetooth 4.0
 
-> REQUIREMENTS NOTES  
+> REQUIREMENT NOTES  
 The iOS simulator doesn’t support Bluetooth 4.0, so test apps must be run on a real iOS device which requires a developer account.  Bluetooth 4.0 avaliable on iPhone 4S+, iPad 3rd generation+, or iPod Touch 5th generation.
 
 ### License
