@@ -58,4 +58,32 @@ A sample iOS App using the MetaWear iOS API can be found at https://github.com/m
 
 The sample iOS App demonstrates the base functionality of the various MetaWear modules and serves as a good starting point for developers.
 
+### Data Processing Module
 
+The data processing module is separated into several "filters" which can be used standalone or chained together to create more complex filters.
+
+The current filters available are:
+- Summation of Events
+- Periodic Sample of Events
+- Peak Detector (coming soon)
+- Low Pass Filter (coming soon)
+- Threshold Detector (coming soon)
+
+The generic nature of these filters allow you to give any data stream as input and receive the processed data as output, either directly or through a log entry.
+
+The following quick example shows how to setup this data processing chain to report the summed RMS value of accelerometer data every minute. This is currently used in the MetaTracker App (https://github.com/mbientlab/MetaTracker) to estimate overall activity in a given time interval.
+
+
+```obj-c
+        MBLEvent *event = [self.device retrieveEventWithIdentifier:@"com.mbientlab.ActivityTrackerEvent"];
+        if (!event) {
+            // Program to sum accelerometer RMS and log sample every 1 second
+            event = [[self.device.accelerometer.rmsDataReadyEvent summationOfEvent] periodicSampleOfEvent:60000 identifier:@"com.mbientlab.ActivityTrackerEvent"];
+        }
+        if (!event.isLogging) {
+            self.device.accelerometer.fullScaleRange = MBLAccelerometerRange8G;
+            self.device.accelerometer.filterCutoffFreq = 0;
+            self.device.accelerometer.highPassFilter = YES;
+            [event startLogging];
+        }
+```
