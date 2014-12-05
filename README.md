@@ -1,27 +1,38 @@
-## MetaWear IOS API by MBIENTLAB
+# MetaWear IOS API by MBIENTLAB
 
-MetaWear is a complete development and production platform for wearable and connected device applications.  It features a powerful ARM processor and sensors, providing energy efficient Smartphone communication and central processing.  The MetaWear board comes pre-loaded with firmware so all sensors and on-board peripherals are controllable via this iOS API.
+<img src="http://mbientlab.com/metawear.png" alt="MetaWear" title="MetaWear" />
 
-For more infomation and to order your MetaWear today see our website at https://mbientlab.com
+### Overview
 
-You can join us on the [MbientLab Community Forums](http://community.mbientlab.com) to be part of the discussion.
+[MetaWear](https://mbientlab.com) is a complete development and production platform for wearable and connected device applications.
 
-### Getting Started
+MetaWear features a number of sensors and peripherals all easily controllable over Bluetooth 4.0 Low Energy using this iOS API, no firmware or hardware experience needed!
 
-To get started you must have an Apple developer account. This is because the iOS simulator doesn’t support Bluetooth 4.0, so test apps must be run on a real iOS device* which requires a developer account.  
-*Bluetooth 4.0 avaliable on iPhone 4S+, iPad 3rd generation+, or iPod Touch 5th generation.
+It comes pre-loaded with a wirelessly upgradeable firmware, so you can always take advantage of the latest features.
 
-Check out http://developer.apple.com to get started. 
+### Requirements
 
-Note that there are fees associated with an Apple developer account.
+- [Apple developer account](http://developer.apple.com/), note there are fees associated.
+- Device running iOS 7.1 or later with Bluetooth 4.0
+
+> REQUIREMENTS NOTES  
+The iOS simulator doesn’t support Bluetooth 4.0, so test apps must be run on a real iOS device which requires a developer account.  Bluetooth 4.0 avaliable on iPhone 4S+, iPad 3rd generation+, or iPod Touch 5th generation.
+
+### License
+See the [License](https://github.com/mbientlab/Metawear-iOSAPI/blob/master/LICENSE)
+
+### Support
+Reach out to the [community](http://community.mbientlab.com) if you encounter any problems, or just want to chat :)
+
+## Getting Started
 
 ### Installation
 
 If you are familiar with [CocoaPods](http://cocoapods.org/), you can use the pod named `'Metawear-iOSAPI'`.
 
-Otherwise, download or fork this project.  The API is available as a Framework for iOS called the MetaWear.framework. You will see a few header files along with a framework file included in your download.  To install, simply drag the MetaWear.framework folder into your Xcode project.
+Otherwise, download this project.  The API is available as a Framework for iOS called the MetaWear.framework. You will see a few header files along with a framework file included in your download.  To install, simply drag the MetaWear.framework folder into your Xcode project.
 
-[[Insert Picture]]
+<img src="http://mbientlab.com/FrameworkSetup.png" alt="FrameworkSetup" title="FrameworkSetup" />
 
 ### Simple API Test
 
@@ -34,19 +45,19 @@ First, import the framework header files like this:
 
 Then add the following code wherever appropriate to make the LED flash green:
 ```obj-c
-  // Begin scanning for MetaWear boards
-  [[MBLMetaWearManager sharedManager] startScanForMetaWearsWithHandler:^(NSArray *array) {
-      // Hooray! We found a MetaWear board, so stop scanning for more
-      [[MBLMetaWearManager sharedManager] stopScanForMetaWears];
-      // Connect to the board we found
-      MBLMetaWear *device = [array firstObject];
-      [device connectWithHandler:^(NSError *error) {
-          if (!error) {
-              // Hooray! We connected to a MetaWear board, so flash its LED!
-              [device.led flashLEDColor:[UIColor greenColor] withIntensity:0.5];
-          }
-      }];
-  }];
+// Begin scanning for MetaWear boards
+[[MBLMetaWearManager sharedManager] startScanForMetaWearsWithHandler:^(NSArray *array) {
+    // Hooray! We found a MetaWear board, so stop scanning for more
+    [[MBLMetaWearManager sharedManager] stopScanForMetaWears];
+    // Connect to the board we found
+    MBLMetaWear *device = [array firstObject];
+    [device connectWithHandler:^(NSError *error) {
+        if (!error) {
+            // Hooray! We connected to a MetaWear board, so flash its LED!
+            [device.led flashLEDColor:[UIColor greenColor] withIntensity:0.5];
+        }
+    }];
+}];
 ```
 Now run the app on a physical device. 
 
@@ -57,6 +68,8 @@ Now run the app on a physical device.
 A sample iOS App using the MetaWear iOS API can be found at https://github.com/mbientlab/Metawear-SampleiOSApp.
 
 The sample iOS App demonstrates the base functionality of the various MetaWear modules and serves as a good starting point for developers.
+
+## API Documentation
 
 ### Data Processing Module
 
@@ -78,15 +91,15 @@ The following diagram describes the overall data gathering, processing, and stor
 ![alt tag](https://github.com/mbientlab/Metawear-iOSAPI/blob/master/DataProcessing.jpeg)
 
 ```obj-c
- MBLEvent *event = [self.device retrieveEventWithIdentifier:@"com.mbientlab.ActivityTrackerEvent"];
- if (!event) {
-   // Program to sum accelerometer RMS and log sample every 1 second
-   event = [[self.device.accelerometer.rmsDataReadyEvent summationOfEvent] periodicSampleOfEvent:60000 identifier:@"com.mbientlab.ActivityTrackerEvent"];
- }
- if (!event.isLogging) {
+MBLEvent *event = [self.device retrieveEventWithIdentifier:@"com.mbientlab.ActivityTrackerEvent"];
+if (!event) {
+    // Program to sum accelerometer RMS data and log sample every 60 seconds
+    event = [[self.device.accelerometer.rmsDataReadyEvent summationOfEvent] periodicSampleOfEvent:60000 identifier:@"com.mbientlab.ActivityTrackerEvent"];
+}
+if (!event.isLogging) {
     self.device.accelerometer.fullScaleRange = MBLAccelerometerRange8G;
-   self.device.accelerometer.filterCutoffFreq = 0;
-   self.device.accelerometer.highPassFilter = YES;
-   [event startLogging];
- }
+    self.device.accelerometer.filterCutoffFreq = 0;
+    self.device.accelerometer.highPassFilter = YES;
+    [event startLogging];
+}
 ```
