@@ -73,17 +73,20 @@ The generic nature of these filters allow you to give any data stream as input a
 
 The following quick example shows how to setup this data processing chain to report the summed RMS value of accelerometer data every minute. This is currently used in the MetaTracker App (https://github.com/mbientlab/MetaTracker) to estimate overall activity in a given time interval.
 
+The following diagram describes the overall data gathering, processing, and storing that we want to achieve.
+
+![alt tag](https://github.com/mbientlab/Metawear-iOSAPI/blob/master/DataProcessing.jpeg)
 
 ```obj-c
-        MBLEvent *event = [self.device retrieveEventWithIdentifier:@"com.mbientlab.ActivityTrackerEvent"];
-        if (!event) {
-            // Program to sum accelerometer RMS and log sample every 1 second
-            event = [[self.device.accelerometer.rmsDataReadyEvent summationOfEvent] periodicSampleOfEvent:60000 identifier:@"com.mbientlab.ActivityTrackerEvent"];
-        }
-        if (!event.isLogging) {
-            self.device.accelerometer.fullScaleRange = MBLAccelerometerRange8G;
-            self.device.accelerometer.filterCutoffFreq = 0;
-            self.device.accelerometer.highPassFilter = YES;
-            [event startLogging];
-        }
+ MBLEvent *event = [self.device retrieveEventWithIdentifier:@"com.mbientlab.ActivityTrackerEvent"];
+ if (!event) {
+   // Program to sum accelerometer RMS and log sample every 1 second
+   event = [[self.device.accelerometer.rmsDataReadyEvent summationOfEvent] periodicSampleOfEvent:60000 identifier:@"com.mbientlab.ActivityTrackerEvent"];
+ }
+ if (!event.isLogging) {
+    self.device.accelerometer.fullScaleRange = MBLAccelerometerRange8G;
+   self.device.accelerometer.filterCutoffFreq = 0;
+   self.device.accelerometer.highPassFilter = YES;
+   [event startLogging];
+ }
 ```
