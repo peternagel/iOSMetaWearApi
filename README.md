@@ -71,6 +71,16 @@ The sample iOS App demonstrates the base functionality of the various MetaWear m
 
 ## API Documentation
 
+### API Quickstart
+
+The core class is MBLMetaWear, it corresponds to a physical MetaWear board and contains pointers to encapsulated sensor and peripheral objects which perform the real life functions.  The MBLMetaWear objects are created by the MBLMetaWearManager which scans for devices.
+
+<img src="http://mbientlab.com/MetaWearAPIQuickstart.png" alt="APIQuickstart" title="APIQuickstart" />
+
+You interact with the data produced by the sensors and peripherals throught the MBLEvent class.
+
+<img src="http://mbientlab.com/MetaWearEventQuickstart.png" alt="EventQuickstart" title="EventQuickstart" />
+
 ### Data Processing Module
 
 The data processing module is separated into several "filters" which can be used standalone or chained together to create more complex filters.
