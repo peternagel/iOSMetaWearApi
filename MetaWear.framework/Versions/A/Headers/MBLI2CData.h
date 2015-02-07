@@ -1,8 +1,8 @@
 /**
- * MetaWear.h
+ * MBLI2CData.h
  * MetaWear
  *
- * Created by Stephen Schiffli on 7/30/14.
+ * Created by Stephen Schiffli on 1/23/15.
  * Copyright 2014 MbientLab Inc. All rights reserved.
  *
  * IMPORTANT: Your use of this Software is limited to those specific rights
@@ -33,31 +33,32 @@
  * contact MbientLab Inc, at www.mbientlab.com.
  */
 
-#import <MetaWear/MBLAccelerometer.h>
-#import <MetaWear/MBLAccelerometerData.h>
-#import <MetaWear/MBLANCS.h>
-#import <MetaWear/MBLANCSEventData.h>
-#import <MetaWear/MBLConstants.h>
 #import <MetaWear/MBLData.h>
-#import <MetaWear/MBLDeviceInfo.h>
-#import <MetaWear/MBLEvent.h>
-#import <MetaWear/MBLGPIO.h>
-#import <MetaWear/MBLGPIOPin.h>
-#import <MetaWear/MBLHapticBuzzer.h>
-#import <MetaWear/MBLI2C.h>
-#import <MetaWear/MBLI2CData.h>
-#import <MetaWear/MBLiBeacon.h>
-#import <MetaWear/MBLLED.h>
-#import <MetaWear/MBLLogEntry.h>
-#import <MetaWear/MBLMechanicalSwitch.h>
-#import <MetaWear/MBLMetaWear.h>
-#import <MetaWear/MBLMetaWearManager.h>
-#import <MetaWear/MBLModule.h>
-#import <MetaWear/MBLNeopixel.h>
-#import <MetaWear/MBLNumericData.h>
-#import <MetaWear/MBLOrientationData.h>
-#import <MetaWear/MBLRegister.h>
-#import <MetaWear/MBLRMSAccelerometerData.h>
-#import <MetaWear/MBLTemperature.h>
-#import <MetaWear/MBLTemperatureData.h>
-#import <MetaWear/MBLTimer.h>
+
+@interface MBLI2CData : MBLData
+
+/**
+ Write the given value to the I2C register
+ @param data Data to be written
+ */
+- (void)writeData:(NSData *)data;
+
+/**
+ Write the given byte to the I2C register
+ @param byte Byte to be written
+ */
+- (void)writeByte:(uint8_t)byte;
+
+/**
+ Write the given word to the I2C register
+ @param word Word to be written
+ */
+- (void)writeWord:(uint16_t)word;
+
+/**
+ Write the given dword to the I2C register
+ @param dword Dword to be written
+ */
+- (void)writeDword:(uint32_t)dword;
+
+@end

@@ -1,8 +1,8 @@
 /**
- * MetaWear.h
+ * MBLTimer.h
  * MetaWear
  *
- * Created by Stephen Schiffli on 7/30/14.
+ * Created by Stephen Schiffli on 1/12/15.
  * Copyright 2014 MbientLab Inc. All rights reserved.
  *
  * IMPORTANT: Your use of this Software is limited to those specific rights
@@ -33,31 +33,45 @@
  * contact MbientLab Inc, at www.mbientlab.com.
  */
 
-#import <MetaWear/MBLAccelerometer.h>
-#import <MetaWear/MBLAccelerometerData.h>
-#import <MetaWear/MBLANCS.h>
-#import <MetaWear/MBLANCSEventData.h>
-#import <MetaWear/MBLConstants.h>
-#import <MetaWear/MBLData.h>
-#import <MetaWear/MBLDeviceInfo.h>
-#import <MetaWear/MBLEvent.h>
-#import <MetaWear/MBLGPIO.h>
-#import <MetaWear/MBLGPIOPin.h>
-#import <MetaWear/MBLHapticBuzzer.h>
-#import <MetaWear/MBLI2C.h>
-#import <MetaWear/MBLI2CData.h>
-#import <MetaWear/MBLiBeacon.h>
-#import <MetaWear/MBLLED.h>
-#import <MetaWear/MBLLogEntry.h>
-#import <MetaWear/MBLMechanicalSwitch.h>
-#import <MetaWear/MBLMetaWear.h>
-#import <MetaWear/MBLMetaWearManager.h>
 #import <MetaWear/MBLModule.h>
-#import <MetaWear/MBLNeopixel.h>
-#import <MetaWear/MBLNumericData.h>
-#import <MetaWear/MBLOrientationData.h>
-#import <MetaWear/MBLRegister.h>
-#import <MetaWear/MBLRMSAccelerometerData.h>
-#import <MetaWear/MBLTemperature.h>
-#import <MetaWear/MBLTemperatureData.h>
-#import <MetaWear/MBLTimer.h>
+#import <MetaWear/MBLEvent.h>
+
+/**
+ Interface to timer module
+ */
+@interface MBLTimer : MBLModule <NSCoding>
+
+/**
+ Create a new event that will trigger periodically a fixed number of times.
+ @param period Period time in mSec
+ @param repeatCount Number of times event will be triggered, 0xFFFF will repeat forever
+ @returns New event that will trigger periodically
+ */
+- (MBLEvent *)eventWithPeriod:(uint32_t)period
+                  repeatCount:(uint16_t)repeatCount;
+
+/**
+ Create a new event that will trigger periodically until canceled.
+ @param period Period time in mSec
+ @returns New event that will trigger periodically
+ */
+- (MBLEvent *)eventWithPeriod:(uint32_t)period;
+
+///----------------------------------
+/// @name Deprecated Functions
+///----------------------------------
+
+/**
+ * @deprecated create an id<MBLRestorable> object and use [MBLMetaWear setConfiguration:handler:] instead
+ */
+- (MBLEvent *)eventWithPeriod:(uint32_t)period
+                   identifier:(NSString *)identifier DEPRECATED_MSG_ATTRIBUTE("Create an id<MBLRestorable> object and use [MBLMetaWear setConfiguration:handler:] instead");
+
+/**
+ * @deprecated create an id<MBLRestorable> object and use [MBLMetaWear setConfiguration:handler:] instead
+ */
+- (MBLEvent *)eventWithPeriod:(uint32_t)period
+                  repeatCount:(uint16_t)repeatCount
+                   identifier:(NSString *)identifier DEPRECATED_MSG_ATTRIBUTE("Create an id<MBLRestorable> object and use [MBLMetaWear setConfiguration:handler:] instead");
+
+@end
