@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "Metawear-iOSAPI"
-  s.version      = "1.6.0"
+  s.version      = "1.6.1"
   s.summary      = "API for iOS + documentation files for the MetaWear platform"
   s.description  = <<-DESC
                    This library allows for simple interfacing with the MetaWear platform. 
@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
                    DESC
   s.license      = { :type => 'Commercial', :text => 'See https://www.mbientlab.com/terms/', :file => 'LICENSE' }
   s.homepage     = "http://www.mbientlab.com"
-  s.author       = { "Stephen" => "hello@mbientlab.com" }
+  s.author       = { "Stephen" => "developers@mbientlab.com" }
   s.social_media_url   = "https://twitter.com/mbientLab"
   s.documentation_url  = "https://www.mbientlab.com/docs/metawear/ios/#{s.version}/index.html"
   s.platform     = :ios, "7.1"
