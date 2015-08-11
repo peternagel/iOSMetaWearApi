@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "Metawear-iOSAPI"
-  s.version      = "1.9.0"
+  s.version      = "1.9.1"
   s.summary      = "API for iOS + documentation files for the MetaWear platform"
   s.description  = <<-DESC
                    This library allows for simple interfacing with the MetaWear platform. 
