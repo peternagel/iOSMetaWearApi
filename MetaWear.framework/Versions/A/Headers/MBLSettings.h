@@ -49,7 +49,7 @@ typedef NS_ENUM(uint8_t, MBLTransmitPower) {
     MBLTransmitPowerMinus30dBm = 7
 };
 
-@interface MBLSettings : MBLModule <NSCoding>
+@interface MBLSettings : MBLModule
 
 /**
  Advertising interval in ms. Defaults to 417.5

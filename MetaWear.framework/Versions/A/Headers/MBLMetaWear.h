@@ -74,7 +74,7 @@ typedef NS_ENUM(NSInteger, MBLConnectionState) {
  You create an object that conforms to this protocol and then assign it to an
  MBLMetaWear object using the setConfiguration:handler: method
  */
-@protocol MBLRestorable <NSObject, NSCoding>
+@protocol MBLRestorable <NSObject>
 /**
  This function is called shortly after you assign this object to a MetaWear device.
  Override this function and use it as the main initialization point for setting up
@@ -99,7 +99,7 @@ typedef NS_ENUM(NSInteger, MBLConnectionState) {
  here via properties.  For example, all accelerometer functionality is contained in the 
  MBLAccelerometer class and is accessed using the accelerometer property
  */
-@interface MBLMetaWear : NSObject <CBPeripheralDelegate, NSCoding>
+@interface MBLMetaWear : NSObject <CBPeripheralDelegate>
 
 ///----------------------------------
 /// @name Sensor and Peripheral Accessors
@@ -324,6 +324,18 @@ typedef NS_ENUM(NSInteger, MBLConnectionState) {
  */
 - (void)updateFirmwareWithHandler:(nonnull MBLErrorHandler)handler
                   progressHandler:(nullable MBLFloatHandler)progressHandler;
+
+
+///----------------------------------
+/// @name Utility Methods
+///----------------------------------
+
+/**
+ Get a callback after all commands have been sent to the MetaWear
+ board and expected responses recieved.
+ @param handler Callback once all commands are complete
+ */
+- (void)waitForCommandCompletion:(nonnull MBLVoidHandler)handler;
 
 ///----------------------------------
 /// @name Deprecated Methods
