@@ -1,8 +1,8 @@
 /**
- * MBLMechanicalSwitch.h
+ * MBLStringData.h
  * MetaWear
  *
- * Created by Stephen Schiffli on 8/1/14.
+ * Created by Stephen Schiffli on 12/16/15.
  * Copyright 2014-2015 MbientLab Inc. All rights reserved.
  *
  * IMPORTANT: Your use of this Software is limited to those specific rights
@@ -33,31 +33,19 @@
  * contact MbientLab via email: hello@mbientlab.com
  */
 
-#import <MetaWear/MBLConstants.h>
-#import <MetaWear/MBLEvent.h>
-#import <MetaWear/MBLModule.h>
-@class MBLNumericData;
+#import <MetaWear/MBLDataSample.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Interface to on-board switch (pushbutton)
+ All MetaWear data that can be represented as a string
  */
-@interface MBLMechanicalSwitch : MBLModule
+@interface MBLStringData : MBLDataSample
 
 /**
- Data representing the current state of the switch.
- Event callbacks will be provided an MBLNumericData object, where a bool value of
- YES means pressed, and NO means released.
+ Value of the string data
  */
-@property (nonatomic, readonly) MBLData MBL_GENERIC(MBLNumericData *) *switchValue;
-
-/**
- Event representing a change in the push button state (pressed/depressed).
- Event callbacks will be provided an MBLNumericData object, where a bool value of
- YES means pressed, and NO means released.
- */
-@property (nonatomic, readonly) MBLEvent MBL_GENERIC(MBLNumericData *) *switchUpdateEvent;
+@property (nonatomic, readonly) NSString *value;
 
 @end
 

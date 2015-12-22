@@ -1,8 +1,8 @@
 /**
- * MBLMechanicalSwitch.h
+ * BFTask+MBLExtensions.h
  * MetaWear
  *
- * Created by Stephen Schiffli on 8/1/14.
+ * Created by Stephen Schiffli on 12/17/15.
  * Copyright 2014-2015 MbientLab Inc. All rights reserved.
  *
  * IMPORTANT: Your use of this Software is limited to those specific rights
@@ -33,32 +33,60 @@
  * contact MbientLab via email: hello@mbientlab.com
  */
 
+#import <Bolts/Bolts.h>
 #import <MetaWear/MBLConstants.h>
-#import <MetaWear/MBLEvent.h>
-#import <MetaWear/MBLModule.h>
-@class MBLNumericData;
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Interface to on-board switch (pushbutton)
+ Convience functions for dealing with BFTasks within the MetaWear SDK
  */
-@interface MBLMechanicalSwitch : MBLModule
+@interface BFExecutor (MBLExtensions)
 
 /**
- Data representing the current state of the switch.
- Event callbacks will be provided an MBLNumericData object, where a bool value of
- YES means pressed, and NO means released.
+ Executes on the [MBLMetaWearManager dispatchQueue]
  */
-@property (nonatomic, readonly) MBLData MBL_GENERIC(MBLNumericData *) *switchValue;
-
-/**
- Event representing a change in the push button state (pressed/depressed).
- Event callbacks will be provided an MBLNumericData object, where a bool value of
- YES means pressed, and NO means released.
- */
-@property (nonatomic, readonly) MBLEvent MBL_GENERIC(MBLNumericData *) *switchUpdateEvent;
++ (instancetype)dispatchExecutor;
 
 @end
+
+
+/**
+ Convience functions for dealing with BFTasks within the MetaWear SDK
+ */
+@interface BFTask MBL_GENERIC(__covariant MBLGenericType) (MBLExtensions)
+
+typedef void (^MBLSuccessBlock)(MBLGenericType result);
+typedef void (^MBLErrorBlock)(NSError *error);
+
+/**
+ Add a block to be called if the task finishes successfully, complete with the 
+ tasks result.  This callback will occur on the dispatchExecutor.
+ */
+- (instancetype)success:(MBLSuccessBlock)block;
+
+/**
+ Add a block to be called if the task finishes with an error.
+ This callback will occur on the dispatchExecutor.
+ */
+- (instancetype)failure:(MBLErrorBlock)block;
+
+
+/**
+ Enqueues the given block to be run once this task completes successfully.
+ This callback will occur on the dispatchExecutor.
+ */
+- (instancetype)continueOnDispatchWithSuccessBlock:(BFContinuationBlock)block;
+
+/**
+ Enqueues the given block to be run once this task completes.
+ This callback will occur on the dispatchExecutor.
+ */
+- (instancetype)continueOnDispatchWithBlock:(BFContinuationBlock)block;
+
+@end
+
+
+extern void MBLForceLoadCategory_BFTask_MBLExtensions();
 
 NS_ASSUME_NONNULL_END
