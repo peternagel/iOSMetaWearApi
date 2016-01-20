@@ -30,7 +30,7 @@ Reach out to the [community](http://community.mbientlab.com) if you encounter an
 
 Our SDK is distibuted with [CocoaPods](http://cocoapods.org/), you can use the pod named `'Metawear-iOSAPI'`.
 
-For first time CocoaPods users we a detailed [video guide](https://youtu.be/VTb_EDv5j7A)
+For first time CocoaPods users we have a detailed [video guide](https://youtu.be/VTb_EDv5j7A).
 
 ### Simple API Test
 
