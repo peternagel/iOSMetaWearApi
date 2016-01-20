@@ -11,8 +11,8 @@ MetaWear features a number of sensors and peripherals all easily controllable ov
 It comes pre-loaded with a wirelessly upgradeable firmware, so you can always take advantage of the latest features.
 
 ### Requirements
-- [MetaWear board](http://mbientlab.com/store/)
-- [Apple developer account](https://developer.apple.com/programs/ios/), note there are fees associated.
+- [MetaWear board](https://mbientlab.com/store/)
+- [Apple developer account](https://developer.apple.com/programs/ios/), you can now get started for free!
 - Device running iOS 7.1 or later with Bluetooth 4.0
 
 > REQUIREMENT NOTES  
@@ -55,7 +55,7 @@ Then add the following code wherever appropriate to make the LED flash green:
     [device connectWithHandler:^(NSError *error) {
         if (!error) {
             // Hooray! We connected to a MetaWear board, so flash its LED!
-            [device.led flashLEDColor:[UIColor greenColor] withIntensity:0.5];
+            [device.led flashLEDColorAsync:[UIColor greenColor] withIntensity:0.5];
         }
     }];
 }];
@@ -72,4 +72,4 @@ The sample iOS App demonstrates the base functionality of the various MetaWear m
 
 ### API Documentation
 
-See the [iOS Guide](http://docs.mbientlab.com/?page_id=15)
+See the [iOS Guide](https://mbientlab.com/iosdocs/)
