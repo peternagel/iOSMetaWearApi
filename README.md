@@ -28,12 +28,9 @@ Reach out to the [community](http://community.mbientlab.com) if you encounter an
 
 ### Installation
 
-If you are familiar with [CocoaPods](http://cocoapods.org/), you can use the pod named `'Metawear-iOSAPI'`.
+Our SDK is distibuted with [CocoaPods](http://cocoapods.org/), you can use the pod named `'Metawear-iOSAPI'`.
 
-Otherwise, download this project.  The API is available as a Framework for iOS called the MetaWear.framework. You will see a few header files along with a framework file included in your download.  To install, simply drag the MetaWear.framework folder into your Xcode project.  For step by instructions see the [video guide](https://youtu.be/B9DQQATNoGk).
-
-
-![alt tag](https://github.com/mbientlab/Metawear-iOSAPI/blob/master/Images/FrameworkSetup.png)
+For first time CocoaPods users we a detailed [video guide](https://youtu.be/VTb_EDv5j7A)
 
 ### Simple API Test
 
