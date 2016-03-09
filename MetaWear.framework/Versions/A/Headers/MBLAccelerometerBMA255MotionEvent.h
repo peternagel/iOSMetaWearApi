@@ -1,9 +1,9 @@
 /**
- * MBLExternalThermistor.h
+ * MBLAccelerometerBMA255MotionEvent.h
  * MetaWear
  *
- * Created by Stephen Schiffli on 7/9/15.
- * Copyright 2014-2015 MbientLab Inc. All rights reserved.
+ * Created by Stephen Schiffli on 3/1/16.
+ * Copyright 2016 MbientLab Inc. All rights reserved.
  *
  * IMPORTANT: Your use of this Software is limited to those specific rights
  * granted under the terms of a software license agreement between the user who
@@ -33,30 +33,55 @@
  * contact MbientLab via email: hello@mbientlab.com
  */
 
-#import <MetaWear/MBLData.h>
+#import <MetaWear/MBLEvent.h>
+@class MBLDataSample;
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- Interface for configuring an external thermistor.  For details on connecting,
- see our blog post at http://projects.mbientlab.com/metawear-and-thermistor/
- */
-@interface MBLExternalThermistor<ResultType> : MBLData<ResultType>
+
+@interface MBLAccelerometerBMA255MotionEvent : MBLEvent<MBLDataSample *>
+
+#pragma mark - Beta API (Subject to change)
 
 /**
- Thermistor output pin number
+ The BMI160 combines Slow/No-Motion and Any-Motion detection, so below
+ we expose the raw registers as a first enabling step.  Over time this will become
+ better encapsulated.
  */
-@property (nonatomic) uint8_t readPin;
+
+#pragma mark - Slow-Motion/No-Motion
 /**
- Thermistor enable pin number
+ Set to YES if you want slow/no-motion events
  */
-@property (nonatomic) uint8_t enablePin;
+@property (nonatomic) BOOL slowNoMotionEnabled;
 /**
- YES means when enablePin is low the thermistor will be on, NO means when
- enablePin is high the sensor will be on. This will be determined by how
- you connect the thermistor to the MetaWear.
+ Set to YES if you want slow-motion, set to NO if you want no-motion
  */
-@property (nonatomic) BOOL enablePinActiveLow;
+@property (nonatomic) BOOL useSlowMotion;
+/**
+ No-Motion: Time in ms for which no slope data point must exceeed slow/no-mothion threshold
+ Slow-Motion:  Time in ms for which slope data points must be above the slow/no-motion threshold
+ */
+@property (nonatomic) double slowNoMotionDuration;
+/**
+ Threshold in G's for detecting slow/no-motion events
+ */
+@property (nonatomic) double slowNoMotionThreshold;
+
+
+#pragma mark - Any-Motion
+/**
+ Set to YES if you want any-motion events
+ */
+@property (nonatomic) BOOL anyMotionEnabled;
+/**
+ Time in ms for which slope data points must be above the anyMotionThreshold threshold
+ */
+@property (nonatomic) double anyMotionDuration;
+/**
+ Threshold in G's for detecting any-motion events
+ */
+@property (nonatomic) double anyMotionThreshold;
 
 @end
 

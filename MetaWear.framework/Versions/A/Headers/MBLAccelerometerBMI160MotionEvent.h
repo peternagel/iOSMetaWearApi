@@ -1,8 +1,8 @@
 /**
- * MBLTimer.h
+ * MBLAccelerometerBMI160MotionEvent.h
  * MetaWear
  *
- * Created by Stephen Schiffli on 1/12/15.
+ * Created by Stephen Schiffli on 7/20/15.
  * Copyright 2014-2015 MbientLab Inc. All rights reserved.
  *
  * IMPORTANT: Your use of this Software is limited to those specific rights
@@ -33,32 +33,67 @@
  * contact MbientLab via email: hello@mbientlab.com
  */
 
-#import <MetaWear/MBLEntityModule.h>
 #import <MetaWear/MBLEvent.h>
 @class MBLDataSample;
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- Interface to timer module
- */
-@interface MBLTimer : MBLEntityModule
+
+@interface MBLAccelerometerBMI160MotionEvent : MBLEvent<MBLDataSample *>
+
+#pragma mark - Beta API (Subject to change)
 
 /**
- Create a new event that will trigger periodically a fixed number of times.
- @param period Period time in mSec
- @param repeatCount Number of times event will be triggered, 0xFFFF will repeat forever
- @returns New event that will trigger periodically
+ The BMI160 combines Slow/No-Motion and Any/Signification-Motion detection, so below
+ we expose the raw registers as a first enabling step.  Over time this will become
+ better encapsulated.
  */
-- (MBLEvent<MBLDataSample *> *)eventWithPeriod:(uint32_t)period
-                                               repeatCount:(uint16_t)repeatCount;
 
+#pragma mark - Slow-Motion/No-Motion
 /**
- Create a new event that will trigger periodically until canceled.
- @param period Period time in mSec
- @returns New event that will trigger periodically
+ Set to YES if you want slow/no-motion events
  */
-- (MBLEvent<MBLDataSample *> *)eventWithPeriod:(uint32_t)period;
+@property (nonatomic) BOOL slowNoMotionEnabled;
+/**
+ Set to YES if you want slow-motion, set to NO if you want no-motion
+ */
+@property (nonatomic) BOOL useSlowMotion;
+/**
+ No-Motion: Time in ms for which no slope data point must exceeed slow/no-mothion threshold
+ Slow-Motion:  Time in ms for which slope data points must be above the slow/no-motion threshold
+ */
+@property (nonatomic) double slowNoMotionDuration;
+/**
+ Threshold in G's for detecting slow/no-motion events
+ */
+@property (nonatomic) double slowNoMotionThreshold;
+
+
+#pragma mark - Significant-Motion/Any-Motion
+/**
+ Set to YES if you want significant/any-motion events
+ */
+@property (nonatomic) BOOL significantAnyMotionEnabled;
+/**
+ Set to YES if you want significant-motion, set to NO if you want any-motion
+ */
+@property (nonatomic) BOOL useSignificantMotion;
+/**
+ Time in ms for which slope data points must be above the anyMotionThreshold threshold
+ */
+@property (nonatomic) double anyMotionDuration;
+/**
+ Threshold in G's for detecting any-motion events
+ */
+@property (nonatomic) double anyMotionThreshold;
+/**
+ Significant-Motion is a combination of any-motion events.  It's a state machine that works as
+ follows, 1) Any-Motion Detected. 2) Sleep for significantMotionSkipTime. 3) Look for Any-Motion
+ again within significantMotionProofTime, and if found trigger a significant-motion event.
+ Units are in seconds
+*/
+@property (nonatomic) double significantMotionSkipTime;
+@property (nonatomic) double significantMotionProofTime;
 
 @end
 

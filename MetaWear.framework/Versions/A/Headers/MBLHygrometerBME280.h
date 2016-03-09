@@ -1,9 +1,9 @@
 /**
- * MBLExternalThermistor.h
+ * MBLHygrometerBME280.h
  * MetaWear
  *
- * Created by Stephen Schiffli on 7/9/15.
- * Copyright 2014-2015 MbientLab Inc. All rights reserved.
+ * Created by Stephen Schiffli on 2/17/16.
+ * Copyright 2016 MbientLab Inc. All rights reserved.
  *
  * IMPORTANT: Your use of this Software is limited to those specific rights
  * granted under the terms of a software license agreement between the user who
@@ -33,30 +33,40 @@
  * contact MbientLab via email: hello@mbientlab.com
  */
 
-#import <MetaWear/MBLData.h>
+#import <MetaWear/MBLHygrometer.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Interface for configuring an external thermistor.  For details on connecting,
- see our blog post at http://projects.mbientlab.com/metawear-and-thermistor/
+ Hygrometer oversampling rates
  */
-@interface MBLExternalThermistor<ResultType> : MBLData<ResultType>
+typedef NS_ENUM(uint8_t, MBLHygrometerBME280Oversample) {
+    MBLHygrometerBME280Oversample1X = 1,    // default
+    MBLHygrometerBME280Oversample2X = 2,
+    MBLHygrometerBME280Oversample4X = 3,
+    MBLHygrometerBME280Oversample8X = 4,
+    MBLHygrometerBME280Oversample16X = 5,
+};
 
 /**
- Thermistor output pin number
+ Interface to a BME280 humidity sensor
  */
-@property (nonatomic) uint8_t readPin;
+@interface MBLHygrometerBME280 : MBLHygrometer
+
 /**
- Thermistor enable pin number
+ Use this to set humidity sampling mode, higher values produce more accurate
+ results but will use more power.
  */
-@property (nonatomic) uint8_t enablePin;
+@property (nonatomic) MBLHygrometerBME280Oversample humidityOversampling;
+
 /**
- YES means when enablePin is low the thermistor will be on, NO means when
- enablePin is high the sensor will be on. This will be determined by how
- you connect the thermistor to the MetaWear.
+ Data representing the relative humidity of the environment.
+ Event callbacks will be provided an MBLNumericData object whose
+ double value will be percent relative humidity [0.0-100.0].
+ 
+ @waring Period of event will depend on standbyTime from the MBLBarometerBMP280.  TODO: Remove this coupling
  */
-@property (nonatomic) BOOL enablePinActiveLow;
+@property (nonatomic, readonly) MBLEvent<MBLNumericData *> *periodicHumidity;
 
 @end
 

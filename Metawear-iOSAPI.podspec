@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "Metawear-iOSAPI"
-  s.version      = "2.1.1"
+  s.version      = "2.2.0"
   s.summary      = "API for iOS + documentation files for the MetaWear platform"
   s.description  = <<-DESC
                    This library allows for simple interfacing with the MetaWear platform. 
@@ -17,6 +17,6 @@ Pod::Spec.new do |s|
   s.vendored_frameworks = 'MetaWear.framework'
   s.public_header_files = "MetaWear.framework/**/*.h"
   s.requires_arc = true
-  s.ios.frameworks      = 'CoreData'
-  s.dependency 'Bolts/Tasks', '~> 1.5'
+  s.ios.frameworks      = 'CoreData', 'CoreBluetooth'
+  s.dependency 'Bolts/Tasks', '~> 1.6'
 end

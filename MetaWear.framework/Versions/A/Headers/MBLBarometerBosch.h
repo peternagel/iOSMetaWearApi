@@ -1,9 +1,9 @@
 /**
- * MBLI2CData.h
+ * MBLBarometerBosch.h
  * MetaWear
  *
- * Created by Stephen Schiffli on 1/23/15.
- * Copyright 2014-2015 MbientLab Inc. All rights reserved.
+ * Created by Stephen Schiffli on 2/25/16.
+ * Copyright 2016 MbientLab Inc. All rights reserved.
  *
  * IMPORTANT: Your use of this Software is limited to those specific rights
  * granted under the terms of a software license agreement between the user who
@@ -33,38 +33,62 @@
  * contact MbientLab via email: hello@mbientlab.com
  */
 
-#import <MetaWear/MBLData.h>
+#import <MetaWear/MBLBarometer.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Interface for reading/writing a specific I2C device register.
+ Barometer oversampling rates
  */
-@interface MBLI2CData<ResultType> : MBLData<ResultType>
+typedef NS_ENUM(uint8_t, MBLBarometerBoschOversample) {
+    MBLBarometerBoschOversampleUltraLowPower = 1,
+    MBLBarometerBoschOversampleLowPower = 2,
+    MBLBarometerBoschOversampleStandard = 3, // default
+    MBLBarometerBoschOversampleHighResolution = 4,
+    MBLBarometerBoschOversampleUltraHighResolution = 5,
+};
 
 /**
- Write the given value to the I2C register
- @param data Data to be written
+ Barometer output filter
  */
-- (BFTask *)writeDataAsync:(nullable NSData *)data;
+typedef NS_ENUM(uint8_t, MBLBarometerBoschFilter) {
+    MBLBarometerBoschFilterOff = 0, // default
+    MBLBarometerBoschFilterAverage2 = 1,
+    MBLBarometerBoschFilterAverage4 = 2,
+    MBLBarometerBoschFilterAverage8 = 3,
+    MBLBarometerBoschFilterAverage16 = 4,
+};
 
 /**
- Write the given byte to the I2C register
- @param byte Byte to be written
+ Interface to a Bosch pressure sensor
  */
-- (BFTask *)writeByteAsync:(uint8_t)byte;
+@interface MBLBarometerBosch : MBLBarometer
 
 /**
- Write the given word to the I2C register
- @param word Word to be written
+ Use this to set pressure sampling mode, higher values produce more accurate
+ results but will use more power.
  */
-- (BFTask *)writeWordAsync:(uint16_t)word;
+@property (nonatomic) MBLBarometerBoschOversample pressureOversampling;
+/**
+ Use this to set hardware average filtering of pressure samples.
+ */
+@property (nonatomic) MBLBarometerBoschFilter hardwareAverageFilter;
+
 
 /**
- Write the given dword to the I2C register
- @param dword Dword to be written
+ Data representing the atmospheric pressure measured by barometer. Period
+ of event will depend on pressureOversampling and standbyTime.
+ Event callbacks will be provided an MBLNumericData object whose double
+ value will be pressure in pascals.
  */
-- (BFTask *)writeDwordAsync:(uint32_t)dword;
+@property (nonatomic, readonly) MBLEvent<MBLNumericData *> *periodicPressure;
+/**
+ Event representing the altidue calulated from atmospheric pressure. Period
+ of event will depend on pressureOversampling and standbyTime.
+ Event callbacks will be provided an MBLNumericData object whose double
+ value will be altitude in meters.
+ */
+@property (nonatomic, readonly) MBLEvent<MBLNumericData *> *periodicAltitude;
 
 @end
 

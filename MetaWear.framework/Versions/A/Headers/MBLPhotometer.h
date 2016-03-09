@@ -1,9 +1,9 @@
 /**
- * MBLExternalThermistor.h
+ * MBLPhotometer.h
  * MetaWear
  *
- * Created by Stephen Schiffli on 7/9/15.
- * Copyright 2014-2015 MbientLab Inc. All rights reserved.
+ * Created by Stephen Schiffli on 2/17/16.
+ * Copyright 2016 MbientLab Inc. All rights reserved.
  *
  * IMPORTANT: Your use of this Software is limited to those specific rights
  * granted under the terms of a software license agreement between the user who
@@ -33,30 +33,47 @@
  * contact MbientLab via email: hello@mbientlab.com
  */
 
-#import <MetaWear/MBLData.h>
+#import <MetaWear/MBLConstants.h>
+#import <MetaWear/MBLEvent.h>
+#import <MetaWear/MBLModule.h>
+@class MBLRGBData;
+@class MBLNumericData;
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Interface for configuring an external thermistor.  For details on connecting,
- see our blog post at http://projects.mbientlab.com/metawear-and-thermistor/
+ Interface to an abstract photometer sensor. If you need more advanced
+ features then upcast to the specific sensor on your board, MBLPhotometerTCS3472.
+ @see MBLPhotometerTCS3472
  */
-@interface MBLExternalThermistor<ResultType> : MBLData<ResultType>
+@interface MBLPhotometer : MBLModule
 
 /**
- Thermistor output pin number
+ Data representing the intensity of red, green, blue, and clear light exposed 
+ to the sensor. Event callbacks will be provided an MBLRGBData object.
  */
-@property (nonatomic) uint8_t readPin;
+@property (nonatomic, readonly, nullable) MBLData<MBLRGBData *> *color;
+
 /**
- Thermistor enable pin number
+ Data representing the intensity of red light. Event callbacks will be 
+ provided an MBLNumericData object whose double value is intensity in counts.
  */
-@property (nonatomic) uint8_t enablePin;
+@property (nonatomic, readonly, nullable) MBLData<MBLNumericData *> *redColor;
 /**
- YES means when enablePin is low the thermistor will be on, NO means when
- enablePin is high the sensor will be on. This will be determined by how
- you connect the thermistor to the MetaWear.
+ Data representing the intensity of green light. Event callbacks will be
+ provided an MBLNumericData object whose double value is intensity in counts.
  */
-@property (nonatomic) BOOL enablePinActiveLow;
+@property (nonatomic, readonly, nullable) MBLData<MBLNumericData *> *greenColor;
+/**
+ Data representing the intensity of blue light. Event callbacks will be
+ provided an MBLNumericData object whose double value is intensity in counts.
+ */
+@property (nonatomic, readonly, nullable) MBLData<MBLNumericData *> *blueColor;
+/**
+ Data representing the intensity of clear light. Event callbacks will be
+ provided an MBLNumericData object whose double value is intensity in counts.
+ */
+@property (nonatomic, readonly, nullable) MBLData<MBLNumericData *> *clearColor;
 
 @end
 

@@ -1,9 +1,9 @@
 /**
- * MBLAccelerometerBMI160.h
+ * MBLAccelerometerBosch.h
  * MetaWear
  *
- * Created by Stephen Schiffli on 5/27/15.
- * Copyright 2014-2015 MbientLab Inc. All rights reserved.
+ * Created by Stephen Schiffli on 2/29/16.
+ * Copyright 2016 MbientLab Inc. All rights reserved.
  *
  * IMPORTANT: Your use of this Software is limited to those specific rights
  * granted under the terms of a software license agreement between the user who
@@ -33,40 +33,65 @@
  * contact MbientLab via email: hello@mbientlab.com
  */
 
-#import <MetaWear/MBLAccelerometerBosch.h>
+#import <MetaWear/MBLAccelerometer.h>
 #import <MetaWear/bmi160.h>
 @class MBLNumericData;
-@class MBLAccelerometerBMI160MotionEvent;
+@class MBLAccelerometerBoschLowOrHighGEvent;
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Interface to a BMI160 accelerometer
+ Accelerometer sensitiviy ranges
  */
-@interface MBLAccelerometerBMI160 : MBLAccelerometerBosch
+typedef NS_ENUM(uint8_t, MBLAccelerometerBoschRange) {
+    MBLAccelerometerBoschRange2G = BMI160_ACCEL_RANGE_2G,
+    MBLAccelerometerBoschRange4G = BMI160_ACCEL_RANGE_4G,
+    MBLAccelerometerBoschRange8G = BMI160_ACCEL_RANGE_8G,
+    MBLAccelerometerBoschRange16G = BMI160_ACCEL_RANGE_16G,
+};
 
 /**
- Event representing a motion (change of acceleration) event.
+ Interface to a Bosch accelerometer
+ */
+@interface MBLAccelerometerBosch : MBLAccelerometer
+/**
+ Maximum acceleration the accelerometer can report
+ */
+@property (nonatomic) MBLAccelerometerBoschRange fullScaleRange;
+
+
+/**
+ Event representing a low-g (free fall) or high-g (impact) event.
  Event callbacks will be provided an empty MBLDataSample object
  */
-@property (nonatomic, readonly) MBLAccelerometerBMI160MotionEvent *motionEvent;
+@property (nonatomic, readonly) MBLAccelerometerBoschLowOrHighGEvent *lowOrHighGEvent;
 
 
 /**
- This event will fire when a step pattern is detected. Event callbacks will be provided
- an MBLNumericData object, whose int value is always 1.
+ Select the type of taps to be registered. When MBLAccelerometerTapModeBoth is used,
+ you will get two events on a double tap, one for the single and one for the double.
  */
-@property (nonatomic, readonly) MBLEvent<MBLNumericData *> *stepEvent;
+@property (nonatomic) MBLAccelerometerTapType tapType;
 /**
- This data endpoint keeps a running counter in hardware of the number of steps taken.
- Event callbacks will be provided an MBLNumericData object, whose unsigened value is
- the number steps taken.  Note this only counts up when stepEvent is active.
+ Event representing a tap (single, double, or both based on tapType) on the tapDetectionAxis.
+ Event callbacks will be provided an empty MBLDataSample object
  */
-@property (nonatomic, readonly) MBLData<MBLNumericData *> *stepCounter;
+@property (nonatomic, readonly) MBLEvent<MBLDataSample *> *tapEvent;
+
+
 /**
- Use this to reset stepCounter to 0
+ Event representing an orientation change.
+ Event callbacks will be provided an MBLOrientationData object
  */
-- (BFTask *)resetStepCount;
+@property (nonatomic, readonly) MBLEvent<MBLOrientationData *> *orientationEvent;
+
+
+/**
+ Event representing the device being laid down flat (or removed from a flat posistion).
+ Event callbacks will be provided an MBLNumericData object, where a bool value of
+ YES means flat, and NO means not-flat.
+ */
+@property (nonatomic, readonly) MBLEvent<MBLNumericData *> *flatEvent;
 
 @end
 

@@ -1,9 +1,9 @@
 /**
- * MBLExternalThermistor.h
+ * MBLProximityTSL2671.h
  * MetaWear
  *
- * Created by Stephen Schiffli on 7/9/15.
- * Copyright 2014-2015 MbientLab Inc. All rights reserved.
+ * Created by Stephen Schiffli on 2/22/16.
+ * Copyright 2016 MbientLab Inc. All rights reserved.
  *
  * IMPORTANT: Your use of this Software is limited to those specific rights
  * granted under the terms of a software license agreement between the user who
@@ -33,30 +33,39 @@
  * contact MbientLab via email: hello@mbientlab.com
  */
 
-#import <MetaWear/MBLData.h>
+#import <MetaWear/MBLProximity.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Interface for configuring an external thermistor.  For details on connecting,
- see our blog post at http://projects.mbientlab.com/metawear-and-thermistor/
+ Drive current applied to transmitter
  */
-@interface MBLExternalThermistor<ResultType> : MBLData<ResultType>
+typedef NS_ENUM(uint8_t, MBLProximityTSL2671TransmitterDrive) {
+    MBLProximityTSL2671TransmitterDrive25mA = 2,    // Default
+    MBLProximityTSL2671TransmitterDrive12_5mA = 3
+};
 
 /**
- Thermistor output pin number
+ Interface to a TCS3472 RGB light sensor.
+ The following properties affect the range that the proximity sensor outputs.
+ The defaults provided are good for detecting objects within several inches.  You
+ will need more proximityPulses and integrationTime if you want to detect objects
+ further away.
  */
-@property (nonatomic) uint8_t readPin;
+@interface MBLProximityTSL2671 : MBLProximity
+
 /**
- Thermistor enable pin number
+ The measurement time in ms for each proximity sensor cycle. Valid range is [2.72-696.32], 2.72 default.
  */
-@property (nonatomic) uint8_t enablePin;
+@property (nonatomic) double integrationTime;
 /**
- YES means when enablePin is low the thermistor will be on, NO means when
- enablePin is high the sensor will be on. This will be determined by how
- you connect the thermistor to the MetaWear.
+ Number of light pulses to transmit during measurement. <32 recommended, 1 Default.
  */
-@property (nonatomic) BOOL enablePinActiveLow;
+@property (nonatomic) uint8_t proximityPulses;
+/**
+ Drive current applied to transmitter
+ */
+@property (nonatomic) MBLProximityTSL2671TransmitterDrive drive;
 
 @end
 

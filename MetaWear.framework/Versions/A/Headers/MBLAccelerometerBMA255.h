@@ -1,9 +1,9 @@
 /**
- * MBLExternalThermistor.h
+ * MBLAccelerometerBMA255.h
  * MetaWear
  *
- * Created by Stephen Schiffli on 7/9/15.
- * Copyright 2014-2015 MbientLab Inc. All rights reserved.
+ * Created by Stephen Schiffli on 2/29/16.
+ * Copyright 2016 MbientLab Inc. All rights reserved.
  *
  * IMPORTANT: Your use of this Software is limited to those specific rights
  * granted under the terms of a software license agreement between the user who
@@ -33,30 +33,21 @@
  * contact MbientLab via email: hello@mbientlab.com
  */
 
-#import <MetaWear/MBLData.h>
+#import <MetaWear/MBLAccelerometerBosch.h>
+@class MBLAccelerometerBMA255MotionEvent;
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Interface for configuring an external thermistor.  For details on connecting,
- see our blog post at http://projects.mbientlab.com/metawear-and-thermistor/
+ Interface to a BMA25 accelerometer
  */
-@interface MBLExternalThermistor<ResultType> : MBLData<ResultType>
+@interface MBLAccelerometerBMA255 : MBLAccelerometerBosch
 
 /**
- Thermistor output pin number
+ Event representing a motion (change of acceleration) event.
+ Event callbacks will be provided an empty MBLDataSample object
  */
-@property (nonatomic) uint8_t readPin;
-/**
- Thermistor enable pin number
- */
-@property (nonatomic) uint8_t enablePin;
-/**
- YES means when enablePin is low the thermistor will be on, NO means when
- enablePin is high the sensor will be on. This will be determined by how
- you connect the thermistor to the MetaWear.
- */
-@property (nonatomic) BOOL enablePinActiveLow;
+@property (nonatomic, readonly) MBLAccelerometerBMA255MotionEvent *motionEvent;
 
 @end
 

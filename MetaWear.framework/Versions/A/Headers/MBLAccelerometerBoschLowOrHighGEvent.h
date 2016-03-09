@@ -1,8 +1,8 @@
 /**
- * MBLExternalThermistor.h
+ * MBLAccelerometerBoschLowOrHighGEvent.h
  * MetaWear
  *
- * Created by Stephen Schiffli on 7/9/15.
+ * Created by Stephen Schiffli on 11/4/15.
  * Copyright 2014-2015 MbientLab Inc. All rights reserved.
  *
  * IMPORTANT: Your use of this Software is limited to those specific rights
@@ -33,30 +33,61 @@
  * contact MbientLab via email: hello@mbientlab.com
  */
 
-#import <MetaWear/MBLData.h>
+#import <MetaWear/MBLEvent.h>
+#import <MetaWear/MBLAccelerometer.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- Interface for configuring an external thermistor.  For details on connecting,
- see our blog post at http://projects.mbientlab.com/metawear-and-thermistor/
- */
-@interface MBLExternalThermistor<ResultType> : MBLData<ResultType>
+@interface MBLAccelerometerBoschLowOrHighGEvent : MBLEvent<MBLDataSample *>
+
+
+#pragma mark - Beta API (Subject to change)
 
 /**
- Thermistor output pin number
+ The BMI160 combines low-g and high-g detection, so below we expose the
+ raw registers as a first enabling step.  Over time this will become
+ better encapsulated.
  */
-@property (nonatomic) uint8_t readPin;
+
 /**
- Thermistor enable pin number
+ Set to YES if you want low-g events
  */
-@property (nonatomic) uint8_t enablePin;
+@property (nonatomic) BOOL lowGEnabled;
 /**
- YES means when enablePin is low the thermistor will be on, NO means when
- enablePin is high the sensor will be on. This will be determined by how
- you connect the thermistor to the MetaWear.
+ Time in ms that acceleration must stay below lowGThreshold before an event is triggered.
  */
-@property (nonatomic) BOOL enablePinActiveLow;
+@property (nonatomic) double lowGDuration;
+/**
+ Acceleration in G's that acceleration must stay below to be consided a low-g event.
+ */
+@property (nonatomic) double lowGThreshold;
+/**
+ Hysteresis for the low-g threshold.
+ */
+@property (nonatomic) double lowGHysteresis;
+/**
+ Set to YES for axis-summing mode (summed absolute value of all axis must be below lowGThreshold).
+ Set to NO for single-axis mode (absolute value of each axis is compared to lowGThreshold).
+ */
+@property (nonatomic) BOOL lowGMode;
+
+
+/**
+ Bitmask for axis enabled for high-g detection.
+ */
+@property (nonatomic) MBLAccelerometerAxis highGEnabledAxis;
+/**
+ Time in ms that acceleration must stay above highGThreshold before an event is triggered.
+ */
+@property (nonatomic) double highGDuration;
+/**
+ Acceleration in G's that acceleration must stay above to be consided a high-g event.
+ */
+@property (nonatomic) double highGThreshold;
+/**
+ Hysteresis for the high-g threshold.
+ */
+@property (nonatomic) double highGHysteresis;
 
 @end
 

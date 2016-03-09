@@ -1,9 +1,9 @@
 /**
- * MBLAccelerometerBMI160LowOrHighGEvent.h
+ * MBLBarometerBME280.h
  * MetaWear
  *
- * Created by Stephen Schiffli on 11/4/15.
- * Copyright 2014-2015 MbientLab Inc. All rights reserved.
+ * Created by Stephen Schiffli on 2/22/16.
+ * Copyright 2016 MbientLab Inc. All rights reserved.
  *
  * IMPORTANT: Your use of this Software is limited to those specific rights
  * granted under the terms of a software license agreement between the user who
@@ -33,61 +33,34 @@
  * contact MbientLab via email: hello@mbientlab.com
  */
 
-#import <MetaWear/MBLEvent.h>
-#import <MetaWear/MBLAccelerometer.h>
+#import <MetaWear/MBLBarometerBosch.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MBLAccelerometerBMI160LowOrHighGEvent : MBLEvent MBL_GENERIC(MBLDataSample *)
-
-
-#pragma mark - Beta API (Subject to change)
-
 /**
- The BMI160 combines low-g and high-g detection, so below we expose the
- raw registers as a first enabling step.  Over time this will become
- better encapsulated.
+ Barometer standby times
  */
-
-/**
- Set to YES if you want low-g events
- */
-@property (nonatomic) BOOL lowGEnabled;
-/**
- Time in ms that acceleration must stay below lowGThreshold before an event is triggered.
- */
-@property (nonatomic) double lowGDuration;
-/**
- Acceleration in G's that acceleration must stay below to be consided a low-g event.
- */
-@property (nonatomic) double lowGThreshold;
-/**
- Hysteresis for the low-g threshold.
- */
-@property (nonatomic) double lowGHysteresis;
-/**
- Set to YES for axis-summing mode (summed absolute value of all axis must be below lowGThreshold).
- Set to NO for single-axis mode (absolute value of each axis is compared to lowGThreshold).
- */
-@property (nonatomic) BOOL lowGMode;
-
+typedef NS_ENUM(uint8_t, MBLBarometerBME280Standby) {
+    MBLBarometerBME280Standby0_5 = 0,
+    MBLBarometerBME280Standby10 = 6,
+    MBLBarometerBME280Standby20 = 7,
+    MBLBarometerBME280Standby62_5 = 1,
+    MBLBarometerBME280Standby125 = 2,
+    MBLBarometerBME280Standby250 = 3,
+    MBLBarometerBME280Standby500 = 4, // default
+    MBLBarometerBME280Standby1000 = 5
+};
 
 /**
- Bitmask for axis enabled for high-g detection.
+ Interface to a BME280 pressure sensor
  */
-@property (nonatomic) MBLAccelerometerAxis highGEnabledAxis;
+@interface MBLBarometerBME280 : MBLBarometerBosch
+
 /**
- Time in ms that acceleration must stay above highGThreshold before an event is triggered.
+ Set the standby time for the periodicAltitidue and periodicPressure events.
+ That is how long the device sleeps between successive measurements
  */
-@property (nonatomic) double highGDuration;
-/**
- Acceleration in G's that acceleration must stay above to be consided a high-g event.
- */
-@property (nonatomic) double highGThreshold;
-/**
- Hysteresis for the high-g threshold.
- */
-@property (nonatomic) double highGHysteresis;
+@property (nonatomic) MBLBarometerBME280Standby standbyTime;
 
 @end
 

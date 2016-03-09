@@ -1,9 +1,9 @@
 /**
- * MBLExternalThermistor.h
+ * MBLPhotometerTCS3472.h
  * MetaWear
  *
- * Created by Stephen Schiffli on 7/9/15.
- * Copyright 2014-2015 MbientLab Inc. All rights reserved.
+ * Created by Stephen Schiffli on 2/17/16.
+ * Copyright 2016 MbientLab Inc. All rights reserved.
  *
  * IMPORTANT: Your use of this Software is limited to those specific rights
  * granted under the terms of a software license agreement between the user who
@@ -33,30 +33,38 @@
  * contact MbientLab via email: hello@mbientlab.com
  */
 
-#import <MetaWear/MBLData.h>
+#import <MetaWear/MBLPhotometer.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Interface for configuring an external thermistor.  For details on connecting,
- see our blog post at http://projects.mbientlab.com/metawear-and-thermistor/
+ Gain applied to the photometer sensor signal
  */
-@interface MBLExternalThermistor<ResultType> : MBLData<ResultType>
+typedef NS_ENUM(uint8_t, MBLPhotometerTCS3472Gain) {
+    MBLPhotometerTCS3472Gain1X = 0, // default
+    MBLPhotometerTCS3472Gain4X = 1,
+    MBLPhotometerTCS3472Gain16X = 2,
+    MBLPhotometerTCS3472Gain60X = 3,
+};
 
 /**
- Thermistor output pin number
+ Interface to a TCS3472 RGB light sensor
  */
-@property (nonatomic) uint8_t readPin;
+@interface MBLPhotometerTCS3472 : MBLPhotometer
+
 /**
- Thermistor enable pin number
+ Gain applied to the photometer sensor signal
  */
-@property (nonatomic) uint8_t enablePin;
+@property (nonatomic) MBLPhotometerTCS3472Gain gain;
 /**
- YES means when enablePin is low the thermistor will be on, NO means when
- enablePin is high the sensor will be on. This will be determined by how
- you connect the thermistor to the MetaWear.
+ The measurement time in ms for each RBG light sensor cycle. Valid range is [2.4-614.4], default 50.0.
  */
-@property (nonatomic) BOOL enablePinActiveLow;
+@property (nonatomic) double integrationTime;
+/**
+ Trigger an LED flash during the reading to improve reading in low light scenarios.
+ YES: Flash during reading, NO: No flash, default NO.
+ */
+@property (nonatomic) BOOL ledFlash;
 
 @end
 

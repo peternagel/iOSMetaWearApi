@@ -1,9 +1,9 @@
 /**
- * MBLExternalThermistor.h
+ * MBLRGBData.h
  * MetaWear
  *
- * Created by Stephen Schiffli on 7/9/15.
- * Copyright 2014-2015 MbientLab Inc. All rights reserved.
+ * Created by Stephen Schiffli on 2/17/16.
+ * Copyright 2016 MbientLab Inc. All rights reserved.
  *
  * IMPORTANT: Your use of this Software is limited to those specific rights
  * granted under the terms of a software license agreement between the user who
@@ -33,30 +33,32 @@
  * contact MbientLab via email: hello@mbientlab.com
  */
 
-#import <MetaWear/MBLData.h>
+#import <MetaWear/MBLDataSample.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Interface for configuring an external thermistor.  For details on connecting,
- see our blog post at http://projects.mbientlab.com/metawear-and-thermistor/
+ Container for a single RGB sensor reading
  */
-@interface MBLExternalThermistor<ResultType> : MBLData<ResultType>
+@interface MBLRGBData : MBLDataSample
 
 /**
- Thermistor output pin number
+ Red light intensity in counts
  */
-@property (nonatomic) uint8_t readPin;
+@property (nonatomic, readonly) uint16_t red;
 /**
- Thermistor enable pin number
+ Green light intensity in counts
  */
-@property (nonatomic) uint8_t enablePin;
+@property (nonatomic, readonly) uint16_t green;
 /**
- YES means when enablePin is low the thermistor will be on, NO means when
- enablePin is high the sensor will be on. This will be determined by how
- you connect the thermistor to the MetaWear.
+ Blue light intensity in counts
  */
-@property (nonatomic) BOOL enablePinActiveLow;
+@property (nonatomic, readonly) uint16_t blue;
+
+/**
+ Clear light intensity in counts
+ */
+@property (nonatomic, readonly) uint16_t clear;
 
 @end
 

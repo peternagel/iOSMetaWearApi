@@ -1,9 +1,9 @@
 /**
- * MBLExternalThermistor.h
+ * MBLHygrometer.h
  * MetaWear
  *
- * Created by Stephen Schiffli on 7/9/15.
- * Copyright 2014-2015 MbientLab Inc. All rights reserved.
+ * Created by Stephen Schiffli on 2/17/16.
+ * Copyright 2016 MbientLab Inc. All rights reserved.
  *
  * IMPORTANT: Your use of this Software is limited to those specific rights
  * granted under the terms of a software license agreement between the user who
@@ -33,30 +33,26 @@
  * contact MbientLab via email: hello@mbientlab.com
  */
 
-#import <MetaWear/MBLData.h>
+#import <MetaWear/MBLConstants.h>
+#import <MetaWear/MBLEvent.h>
+#import <MetaWear/MBLModule.h>
+@class MBLNumericData;
 
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Interface for configuring an external thermistor.  For details on connecting,
- see our blog post at http://projects.mbientlab.com/metawear-and-thermistor/
+ Interface to an abstract hygrometer sensor. If you need more advanced
+ features then upcast to the specific sensor on your board, MBLHygrometerBME280.
+ @see MBLHygrometerBME280
  */
-@interface MBLExternalThermistor<ResultType> : MBLData<ResultType>
+@interface MBLHygrometer : MBLModule
 
 /**
- Thermistor output pin number
+ Data representing the relative humidity of the environment.
+ Event callbacks will be provided an MBLNumericData object whose
+ double value will be percent relative humidity [0.0-100.0].
  */
-@property (nonatomic) uint8_t readPin;
-/**
- Thermistor enable pin number
- */
-@property (nonatomic) uint8_t enablePin;
-/**
- YES means when enablePin is low the thermistor will be on, NO means when
- enablePin is high the sensor will be on. This will be determined by how
- you connect the thermistor to the MetaWear.
- */
-@property (nonatomic) BOOL enablePinActiveLow;
+@property (nonatomic, readonly, nullable) MBLData<MBLNumericData *> *humidity;
 
 @end
 
