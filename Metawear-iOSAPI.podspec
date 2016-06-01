@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "7.1"
   s.source       = { :git => "https://github.com/mbientlab/Metawear-iOSAPI.git", :tag => "#{s.version}" }
   s.vendored_frameworks = 'MetaWear.framework'
-  s.public_header_files = "MetaWear.framework/**/*.h"
+  s.source_files = "MetaWear.framework/**/*.h"
   s.requires_arc = true
   s.ios.frameworks      = 'CoreData', 'CoreBluetooth'
   s.dependency 'Bolts/Tasks', '~> 1.7'
